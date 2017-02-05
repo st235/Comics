@@ -10,4 +10,26 @@
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/pageProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="visible"
+            />
+
+        <ImageButton
+            android:id="@+id/reloadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@android:color/transparent"
+            android:visibility="gone"
+            android:src="@drawable/ic_broken_image_white_24dp"
+            />
+    </RelativeLayout>
 </LinearLayout>

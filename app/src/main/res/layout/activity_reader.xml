@@ -23,11 +23,51 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <FrameLayout
+            android:id="@+id/fragment_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <LinearLayout
+            android:id="@+id/pageNavLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="40dp"
+            android:orientation="vertical"
+            android:background="@drawable/reader_navigation"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:id="@+id/pageNavTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorWhite"
+                android:textSize="15sp"/>
+
+            <SeekBar
+                android:id="@+id/pageSeekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="20dp"
+                android:minHeight="2dp"
+                android:maxHeight="2dp"
+                android:thumb="@drawable/reader_thumb"
+                android:thumbOffset="6dp"
+                android:progressDrawable="@drawable/reader_progress"
+                />
+        </LinearLayout>
+
+    </RelativeLayout>
 </android.support.design.widget.CoordinatorLayout>

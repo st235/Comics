@@ -8,4 +8,13 @@
     <string name="action_settings">Settings</string>
 
     <string name="breadcrumbs_header">Hierarchy</string>
+
+    <string name="action_view_mode">View Mode</string>
+    <string name="action_view_mode_aspect_fill">Aspect Fill</string>
+    <string name="action_view_mode_aspect_fit">Aspect Fit</string>
+    <string name="action_view_mode_fit_width">Fit Width</string>
+
+    <string name="action_reading_mode">Reading Mode</string>
+    <string name="action_reading_mode_left_to_right">Comics</string>
+    <string name="action_reading_mode_right_to_left">Manga</string>
 </resources>
