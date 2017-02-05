@@ -23,16 +23,16 @@ public class ParserFactory {
             parser = new DirectoryParser();
         }
         if (FileUtils.isZip(fileName)) {
-            //parser = new ZipParser();
+            parser = new ZipParser();
         }
         else if (FileUtils.isRar(fileName)) {
             parser = new RarParser();
         }
         else if (FileUtils.isTarball(fileName)) {
-           // parser = new TarParser();
+            parser = new TarParser();
         }
         else if (FileUtils.isSevenZ(fileName)) {
-           // parser = new SevenZParser();
+            parser = new SevenZParser();
         }
         else if (FileUtils.isPdf(fileName)) {
            // parser = new PdfParser();
