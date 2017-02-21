@@ -1,8 +1,10 @@
 package sasd97.github.com.comics.ui;
 
+import android.Manifest;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.view.MenuItem;
 
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.ui.fragments.HierarchyFragment;
+import sasd97.github.com.comics.utils.AndroidVersionUtils;
 
 public class LibraryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -36,6 +39,8 @@ public class LibraryActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        if (AndroidVersionUtils.isLollipopOrLater()) ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 12);
     }
 
     @Override

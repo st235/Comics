@@ -10,11 +10,17 @@
     <string name="breadcrumbs_header">Hierarchy</string>
 
     <string name="action_view_mode">View Mode</string>
-    <string name="action_view_mode_aspect_fill">Aspect Fill</string>
-    <string name="action_view_mode_aspect_fit">Aspect Fit</string>
-    <string name="action_view_mode_fit_width">Fit Width</string>
+    <string-array name="action_view_mode_variants">
+        <item name="action_view_mode_aspect_fill">Aspect Fill</item>
+        <item name="action_view_mode_aspect_fit">Aspect Fit</item>
+        <item name="action_view_mode_fit_width">Fit Width</item>
+    </string-array>
 
     <string name="action_reading_mode">Reading Mode</string>
-    <string name="action_reading_mode_left_to_right">Comics</string>
-    <string name="action_reading_mode_right_to_left">Manga</string>
+    <string-array name="action_reading_mode_variants">
+        <item name="action_reading_mode_left_to_right">Comics</item>
+        <item name="action_reading_mode_right_to_left">Manga</item>
+    </string-array>
+
+    <string name="ok">OK</string>
 </resources>

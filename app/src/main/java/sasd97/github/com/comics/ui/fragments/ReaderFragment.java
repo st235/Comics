@@ -17,8 +17,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
@@ -38,6 +37,7 @@ import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import sasd97.github.com.comics.R;
@@ -54,7 +54,8 @@ import sasd97.github.com.comics.utils.AndroidVersionUtils;
  * Created by Alexadner Dadukin on 2/5/2017.
  */
 
-public class ReaderFragment extends Fragment implements View.OnTouchListener {
+public class ReaderFragment extends Fragment
+        implements View.OnTouchListener, View.OnClickListener {
 
     private static final String CACHE_DIR = "comic_cached";
     private final static HashMap<Integer, PageImageConstants.PageViewMode> RESOURCE_VIEW_MODE;
@@ -69,8 +70,15 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
     public static final String STATE_NEW_COMIC = "STATE_NEW_COMIC";
     public static final String STATE_NEW_COMIC_TITLE = "STATE_NEW_COMIC_TITLE";
 
-    @BindView(R.id.viewPager) ComicViewPager comicViewPager;
+    @BindView(R.id.view_pager) ComicViewPager comicViewPager;
 
+    @BindArray(R.array.action_view_mode_variants) String[] viewModeVariants;
+    @BindArray(R.array.action_reading_mode_variants) String[] readingModeVariants;
+
+    private MaterialDialog dialog;
+
+    private View pageNavigationViewModeButton;
+    private View pageNavigationReadingModeButton;
     private LinearLayout pageNavigationLayout;
     private SeekBar pageNavigationSeekBar;
     private TextView pageNavigationTextView;
@@ -94,16 +102,15 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
 
     public enum Mode {
         MODE_LIBRARY,
-        MODE_BROWSER;
+        MODE_BROWSER
     }
 
     static {
         RESOURCE_VIEW_MODE = new HashMap<>();
-        RESOURCE_VIEW_MODE.put(R.id.view_mode_aspect_fill, PageImageConstants.PageViewMode.ASPECT_FILL);
-        RESOURCE_VIEW_MODE.put(R.id.view_mode_aspect_fit, PageImageConstants.PageViewMode.ASPECT_FIT);
-        RESOURCE_VIEW_MODE.put(R.id.view_mode_fit_width, PageImageConstants.PageViewMode.FIT_WIDTH);
+        RESOURCE_VIEW_MODE.put(0, PageImageConstants.PageViewMode.ASPECT_FILL);
+        RESOURCE_VIEW_MODE.put(1, PageImageConstants.PageViewMode.ASPECT_FIT);
+        RESOURCE_VIEW_MODE.put(2, PageImageConstants.PageViewMode.FIT_WIDTH);
     }
-
 
     public static ReaderFragment create(File comic) {
         ReaderFragment fragment = new ReaderFragment();
@@ -156,8 +163,13 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
         ButterKnife.bind(this, v);
 
         pageNavigationLayout = (LinearLayout) getActivity().findViewById(R.id.pageNavLayout);
+        pageNavigationViewModeButton = pageNavigationLayout.findViewById(R.id.action_view_mode_button);
+        pageNavigationReadingModeButton = pageNavigationLayout.findViewById(R.id.action_reading_mode_button);
         pageNavigationSeekBar = (SeekBar) pageNavigationLayout.findViewById(R.id.pageSeekBar);
         pageNavigationTextView = (TextView) pageNavigationLayout.findViewById(R.id.pageNavTextView);
+
+        pageNavigationViewModeButton.setOnClickListener(this);
+        pageNavigationReadingModeButton.setOnClickListener(this);
 
         comicViewPager.setAdapter(mPagerAdapter);
         comicViewPager.setOffscreenPageLimit(3);
@@ -217,55 +229,62 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.reader, menu);
-
-        switch (mPageViewMode) {
-            case ASPECT_FILL:
-                menu.findItem(R.id.view_mode_aspect_fill).setChecked(true);
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.action_view_mode_button:
+                onViewModeClick(v);
                 break;
-            case ASPECT_FIT:
-                menu.findItem(R.id.view_mode_aspect_fit).setChecked(true);
+            case R.id.action_reading_mode_button:
+                onReadingModeClick(v);
                 break;
-            case FIT_WIDTH:
-                menu.findItem(R.id.view_mode_fit_width).setChecked(true);
-                break;
-        }
-
-        if (mIsLeftToRight) {
-            menu.findItem(R.id.reading_left_to_right).setChecked(true);
-        }
-        else {
-            menu.findItem(R.id.reading_right_to_left).setChecked(true);
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        //SharedPreferences.Editor editor = mPreferences.edit();
-        switch(item.getItemId()) {
-            case R.id.view_mode_aspect_fill:
-            case R.id.view_mode_aspect_fit:
-            case R.id.view_mode_fit_width:
-                item.setChecked(true);
-                mPageViewMode = RESOURCE_VIEW_MODE.get(item.getItemId());
+    private void onViewModeClick(View v) {
+        dialog = new MaterialDialog
+                .Builder(getContext())
+                .title(R.string.action_view_mode)
+                .items(viewModeVariants)
+                .itemsCallbackSingleChoice(mPageViewMode.native_int, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        mPageViewMode = RESOURCE_VIEW_MODE.get(which);
 //                editor.putInt(Constants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
 //                editor.apply();
-                updatePageViews(comicViewPager);
-                break;
-            case R.id.reading_left_to_right:
-            case R.id.reading_right_to_left:
-                item.setChecked(true);
-                int page = getCurrentPage();
-                mIsLeftToRight = (item.getItemId() == R.id.reading_left_to_right);
-//                editor.putBoolean(Constants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
-//                editor.apply();
-                setCurrentPage(page, false);
-                comicViewPager.getAdapter().notifyDataSetChanged();
-                updateSeekBar();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
+                        updatePageViews(comicViewPager);
+                        return true;
+                    }
+                })
+                .positiveText(R.string.ok)
+                .show();
+    }
+
+    private void onReadingModeClick(View v) {
+        dialog = new MaterialDialog
+                .Builder(getContext())
+                .title(R.string.action_reading_mode)
+                .items(readingModeVariants)
+                .itemsCallbackSingleChoice(mIsLeftToRight ? 0 : 1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        int page = getCurrentPage();
+                        mIsLeftToRight = (which == 0);
+        //                editor.putBoolean(Constants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
+        //                editor.apply();
+                        setCurrentPage(page, false);
+                        comicViewPager.getAdapter().notifyDataSetChanged();
+                        updateSeekBar();
+                        return true;
+                    }
+                })
+                .positiveText(R.string.ok)
+                .show();
+    }
+
+    @Override
+    public void onPause() {
+        if (dialog != null && dialog.isShowing()) dialog.dismiss();
+        super.onPause();
     }
 
     @Override
@@ -275,6 +294,7 @@ public class ReaderFragment extends Fragment implements View.OnTouchListener {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         picasso.shutdown();
         super.onDestroy();
     }

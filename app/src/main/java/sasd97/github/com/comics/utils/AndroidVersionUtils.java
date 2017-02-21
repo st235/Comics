@@ -33,4 +33,12 @@ public final class AndroidVersionUtils {
     public static boolean isLollipopOrLater() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP;
     }
+
+    public static boolean isMarshmallowOrLater() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.M;
+    }
+
+    public static boolean isNougatOrLater() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    }
 }

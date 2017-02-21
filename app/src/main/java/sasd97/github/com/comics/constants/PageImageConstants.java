@@ -14,9 +14,10 @@ public class PageImageConstants {
         ASPECT_FIT(1),
         FIT_WIDTH(2);
 
+        public final int native_int;
+
         PageViewMode(int n) {
             native_int = n;
         }
-        public final int native_int;
     }
 }
