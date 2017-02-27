@@ -21,10 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".ui.LibraryActivity"
             android:label="@string/title_activity_library"
             android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.ReaderActivity"
             android:theme="@style/AppTheme.NoActionBar" />

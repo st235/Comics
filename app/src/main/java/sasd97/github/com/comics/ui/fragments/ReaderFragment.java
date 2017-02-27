@@ -43,23 +43,24 @@ import butterknife.ButterKnife;
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.components.PageImageView;
 import sasd97.github.com.comics.constants.PageImageConstants;
+import sasd97.github.com.comics.constants.ReaderConstants;
 import sasd97.github.com.comics.parsers.IParser;
 import sasd97.github.com.comics.parsers.ParserFactory;
 import sasd97.github.com.comics.parsers.RarParser;
 import sasd97.github.com.comics.services.LocalComicHandler;
+import sasd97.github.com.comics.ui.BaseFragment;
 import sasd97.github.com.comics.ui.adapters.ComicViewPager;
 import sasd97.github.com.comics.utils.AndroidVersionUtils;
+import sasd97.github.com.comics.utils.PrefUtils;
 
 /**
  * Created by Alexadner Dadukin on 2/5/2017.
  */
 
-public class ReaderFragment extends Fragment
+public class ReaderFragment extends BaseFragment
         implements View.OnTouchListener, View.OnClickListener {
 
     private static final String CACHE_DIR = "comic_cached";
-    private final static HashMap<Integer, PageImageConstants.PageViewMode> RESOURCE_VIEW_MODE;
-
     public static final int RESULT = 1;
     public static final String RESULT_CURRENT_PAGE = "fragment.reader.currentpage";
 
@@ -69,6 +70,14 @@ public class ReaderFragment extends Fragment
     public static final String STATE_FULLSCREEN = "STATE_FULLSCREEN";
     public static final String STATE_NEW_COMIC = "STATE_NEW_COMIC";
     public static final String STATE_NEW_COMIC_TITLE = "STATE_NEW_COMIC_TITLE";
+
+    private final static SparseArray<PageImageConstants.PageViewMode> RESOURCE_VIEW_MODE;
+    static {
+        RESOURCE_VIEW_MODE = new SparseArray<>();
+        RESOURCE_VIEW_MODE.put(0, PageImageConstants.PageViewMode.ASPECT_FILL);
+        RESOURCE_VIEW_MODE.put(1, PageImageConstants.PageViewMode.ASPECT_FIT);
+        RESOURCE_VIEW_MODE.put(2, PageImageConstants.PageViewMode.FIT_WIDTH);
+    }
 
     @BindView(R.id.view_pager) ComicViewPager comicViewPager;
 
@@ -105,11 +114,14 @@ public class ReaderFragment extends Fragment
         MODE_BROWSER
     }
 
-    static {
-        RESOURCE_VIEW_MODE = new HashMap<>();
-        RESOURCE_VIEW_MODE.put(0, PageImageConstants.PageViewMode.ASPECT_FILL);
-        RESOURCE_VIEW_MODE.put(1, PageImageConstants.PageViewMode.ASPECT_FIT);
-        RESOURCE_VIEW_MODE.put(2, PageImageConstants.PageViewMode.FIT_WIDTH);
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_reader;
+    }
+
+    @Override
+    protected boolean isButterKnifeEnabled() {
+        return true;
     }
 
     public static ReaderFragment create(File comic) {
@@ -138,9 +150,11 @@ public class ReaderFragment extends Fragment
                 .addRequestHandler(comicHandler)
                 .build();
         mPagerAdapter = new ComicPagerAdapter();
-        mPageViewMode = PageImageConstants.PageViewMode.values()[0];
-        mGestureDetector = new GestureDetector(getActivity(), new MyTouchListener());
 
+        int viewModeInt = PrefUtils.get().getInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, PageImageConstants.PageViewMode.ASPECT_FIT.native_int);
+        mPageViewMode = PageImageConstants.PageViewMode.values()[viewModeInt];
+        mIsLeftToRight = PrefUtils.get().getBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, true);
+        mGestureDetector = new GestureDetector(getActivity(), new MyTouchListener());
 
         if (parser instanceof RarParser) {
             File cacheDir = new File(getActivity().getExternalCacheDir(), CACHE_DIR);
@@ -158,15 +172,19 @@ public class ReaderFragment extends Fragment
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View v = inflater.inflate(R.layout.fragment_reader, container, false);
-        ButterKnife.bind(this, v);
+    protected void onViewCreate() {
+        super.onViewCreate();
 
         pageNavigationLayout = (LinearLayout) getActivity().findViewById(R.id.pageNavLayout);
         pageNavigationViewModeButton = pageNavigationLayout.findViewById(R.id.action_view_mode_button);
         pageNavigationReadingModeButton = pageNavigationLayout.findViewById(R.id.action_reading_mode_button);
         pageNavigationSeekBar = (SeekBar) pageNavigationLayout.findViewById(R.id.pageSeekBar);
         pageNavigationTextView = (TextView) pageNavigationLayout.findViewById(R.id.pageNavTextView);
+    }
+
+    @Override
+    protected void onViewCreated(Bundle state) {
+        super.onViewCreated(state);
 
         pageNavigationViewModeButton.setOnClickListener(this);
         pageNavigationReadingModeButton.setOnClickListener(this);
@@ -211,13 +229,13 @@ public class ReaderFragment extends Fragment
             mCurrentPage = -1;
         }
 
-        if (savedInstanceState != null) {
-            boolean fullscreen = savedInstanceState.getBoolean(STATE_FULLSCREEN);
+        if (state != null) {
+            boolean fullscreen = state.getBoolean(STATE_FULLSCREEN);
             setFullscreen(fullscreen);
 
-            int newComicId = savedInstanceState.getInt(STATE_NEW_COMIC);
+            int newComicId = state.getInt(STATE_NEW_COMIC);
             if (newComicId != -1) {
-                int titleRes = savedInstanceState.getInt(STATE_NEW_COMIC_TITLE);
+                int titleRes = state.getInt(STATE_NEW_COMIC_TITLE);
                 //confirmSwitch(Storage.getStorage(getActivity()).getComic(newComicId), titleRes);
             }
         } else {
@@ -225,7 +243,6 @@ public class ReaderFragment extends Fragment
         }
 
         getActivity().setTitle(mFilename);
-        return v;
     }
 
     @Override
@@ -249,8 +266,8 @@ public class ReaderFragment extends Fragment
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         mPageViewMode = RESOURCE_VIEW_MODE.get(which);
-//                editor.putInt(Constants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
-//                editor.apply();
+                        PrefUtils.edit().putInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
+                        PrefUtils.edit().apply();
                         updatePageViews(comicViewPager);
                         return true;
                     }
@@ -269,8 +286,8 @@ public class ReaderFragment extends Fragment
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         int page = getCurrentPage();
                         mIsLeftToRight = (which == 0);
-        //                editor.putBoolean(Constants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
-        //                editor.apply();
+                        PrefUtils.edit().putBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
+                        PrefUtils.edit().apply();
                         setCurrentPage(page, false);
                         comicViewPager.getAdapter().notifyDataSetChanged();
                         updateSeekBar();
@@ -519,7 +536,6 @@ public class ReaderFragment extends Fragment
 
     private void setFullscreen(boolean fullscreen, boolean animated) {
         mIsFullscreen = fullscreen;
-
         ActionBar actionBar = getActionBar();
 
         if (fullscreen) {
@@ -529,38 +545,40 @@ public class ReaderFragment extends Fragment
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_FULLSCREEN;
+
             if (AndroidVersionUtils.isKitKatOrLater()) {
                 flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
                 flag |= View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
                 flag |= View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
             }
-            comicViewPager.setSystemUiVisibility(flag);
 
+            comicViewPager.setSystemUiVisibility(flag);
             pageNavigationLayout.setVisibility(View.INVISIBLE);
-        } else {
-            if (actionBar != null) actionBar.show();
 
-            int flag =
-                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
-            if (AndroidVersionUtils.isKitKatOrLater()) {
-                flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
-            }
-            comicViewPager.setSystemUiVisibility(flag);
+            return;
+        }
 
-            pageNavigationLayout.setVisibility(View.VISIBLE);
+        if (actionBar != null) actionBar.show();
 
-            // status bar & navigation bar background won't show in some cases
-            if (AndroidVersionUtils.isLollipopOrLater()) {
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        Window w = getActivity().getWindow();
-                        w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-                        w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-                    }
-                }, 300);
-            }
+        int flag =
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
+        if (AndroidVersionUtils.isKitKatOrLater()) {
+            flag |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+        }
+
+        comicViewPager.setSystemUiVisibility(flag);
+        pageNavigationLayout.setVisibility(View.VISIBLE);
+
+        if (AndroidVersionUtils.isLollipopOrLater()) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    Window w = getActivity().getWindow();
+                    w.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+                    w.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+                }
+            }, 300);
         }
     }
 

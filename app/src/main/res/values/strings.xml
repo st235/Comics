@@ -23,4 +23,9 @@
     </string-array>
 
     <string name="ok">OK</string>
+
+    <!-- Navigation Drawer region -->
+    <string name="navigation_drawer_local">Local library</string>
+    <string name="navigation_drawer_local_on_disk">Open file on disk</string>
+    <!-- Endregion -->
 </resources>
