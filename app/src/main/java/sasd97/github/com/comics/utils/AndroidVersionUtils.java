@@ -10,7 +10,7 @@ public final class AndroidVersionUtils {
 
     private AndroidVersionUtils() {}
 
-    public static boolean isIceCreamSandwitchOrLater() {
+    public static boolean isIceCreamSandwichOrLater() {
         return Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH;
     }
 
