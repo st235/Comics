@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -17,7 +16,6 @@ import android.util.Log;
 import android.util.SparseArray;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,11 +33,9 @@ import com.squareup.picasso.Target;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 
 import butterknife.BindArray;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.components.PageImageView;
 import sasd97.github.com.comics.constants.PageImageConstants;
@@ -51,7 +47,7 @@ import sasd97.github.com.comics.services.LocalComicHandler;
 import sasd97.github.com.comics.ui.BaseFragment;
 import sasd97.github.com.comics.ui.adapters.ComicViewPager;
 import sasd97.github.com.comics.utils.AndroidVersionUtils;
-import sasd97.github.com.comics.utils.PrefUtils;
+import sasd97.github.com.comics.storage.PrefsStorage;
 
 /**
  * Created by Alexadner Dadukin on 2/5/2017.
@@ -151,9 +147,9 @@ public class ReaderFragment extends BaseFragment
                 .build();
         mPagerAdapter = new ComicPagerAdapter();
 
-        int viewModeInt = PrefUtils.get().getInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, PageImageConstants.PageViewMode.ASPECT_FIT.native_int);
+        int viewModeInt = PrefsStorage.get().getInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, PageImageConstants.PageViewMode.ASPECT_FIT.native_int);
         mPageViewMode = PageImageConstants.PageViewMode.values()[viewModeInt];
-        mIsLeftToRight = PrefUtils.get().getBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, true);
+        mIsLeftToRight = PrefsStorage.get().getBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, true);
         mGestureDetector = new GestureDetector(getActivity(), new MyTouchListener());
 
         if (parser instanceof RarParser) {
@@ -266,8 +262,8 @@ public class ReaderFragment extends BaseFragment
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         mPageViewMode = RESOURCE_VIEW_MODE.get(which);
-                        PrefUtils.edit().putInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
-                        PrefUtils.edit().apply();
+                        PrefsStorage.edit().putInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
+                        PrefsStorage.edit().apply();
                         updatePageViews(comicViewPager);
                         return true;
                     }
@@ -286,8 +282,8 @@ public class ReaderFragment extends BaseFragment
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         int page = getCurrentPage();
                         mIsLeftToRight = (which == 0);
-                        PrefUtils.edit().putBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
-                        PrefUtils.edit().apply();
+                        PrefsStorage.edit().putBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
+                        PrefsStorage.edit().apply();
                         setCurrentPage(page, false);
                         comicViewPager.getAdapter().notifyDataSetChanged();
                         updateSeekBar();

@@ -15,7 +15,8 @@ import sasd97.github.com.comics.parsers.IParser;
 
 public class LocalComicHandler extends RequestHandler {
 
-    private final static String HANDLER_URI = "localcomic";
+    private final static String HANDLER_URI = "local.comics";
+
     private IParser mParser;
 
     public LocalComicHandler(IParser parser) {
