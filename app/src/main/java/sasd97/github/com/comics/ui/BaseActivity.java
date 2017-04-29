@@ -112,6 +112,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         return false;
     }
 
+    protected Toolbar getToolbar() {
+        return toolbar;
+    }
+
     /**
      * Method included in activity <b>behavior</b>
      * Signals about toolbar view reference

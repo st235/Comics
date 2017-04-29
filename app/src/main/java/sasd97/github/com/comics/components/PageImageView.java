@@ -7,6 +7,7 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -15,7 +16,6 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ImageView;
 import android.widget.OverScroller;
 
 import sasd97.github.com.comics.constants.PageImageConstants;
@@ -24,7 +24,7 @@ import sasd97.github.com.comics.constants.PageImageConstants;
  * Created by Alexadner Dadukin on 2/5/2017.
  */
 
-public class PageImageView extends ImageView {
+public class PageImageView extends AppCompatImageView {
 
     private PageImageConstants.PageViewMode mViewMode;
     private boolean mHaveFrame = false;

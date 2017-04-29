@@ -21,7 +21,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".ui.LibraryActivity"
             android:label="@string/title_activity_library"
@@ -30,10 +29,11 @@
         <activity
             android:name=".ui.ReaderActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:scheme="file" />
                 <data android:host="*" />
                 <data android:mimeType="application/rar" />
@@ -43,6 +43,11 @@
                 <data android:mimeType="application/x-7z-compressed" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".ui.RegistrationActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

@@ -34,9 +34,7 @@ public class ParserFactory {
         else if (FileUtils.isSevenZ(fileName)) {
             parser = new SevenZParser();
         }
-        else if (FileUtils.isPdf(fileName)) {
-           // parser = new PdfParser();
-        }
+
         return tryParse(parser, file);
     }
 

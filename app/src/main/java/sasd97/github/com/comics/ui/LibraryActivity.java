@@ -1,6 +1,7 @@
 package sasd97.github.com.comics.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
@@ -13,32 +14,60 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
+import butterknife.BindView;
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.ui.fragments.HierarchyFragment;
 import sasd97.github.com.comics.utils.AndroidVersionUtils;
 
-public class LibraryActivity extends AppCompatActivity
+public class LibraryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_library);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    @BindView(R.id.drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.nav_view) NavigationView navigationView;
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    public LibraryActivity() {
+        super(R.layout.activity_library);
+    }
+
+    @Override
+    protected boolean isButterKnifeEnabled() {
+        return true;
+    }
+
+    @Override
+    protected int getToolbarId() {
+        return R.id.toolbar;
+    }
+
+    @Override
+    protected boolean isToolbarEnabled() {
+        return true;
+    }
+
+    @Override
+    protected void onViewCreated(Bundle state) {
+        super.onViewCreated(state);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
+                this, drawerLayout, getToolbar(), R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        onNavigationCreate(navigationView);
+    }
 
-        if (AndroidVersionUtils.isLollipopOrLater())
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 12);
+    private void onNavigationCreate(NavigationView navigationView) {
+        View header = navigationView.getHeaderView(0);
+
+        (header.findViewById(R.id.header_view)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(LibraryActivity.this, RegistrationActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override
