@@ -1,6 +1,10 @@
 package sasd97.github.com.comics.http;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static sasd97.github.com.comics.constants.HttpConstants.BASE_API_URL;
 
@@ -14,7 +18,10 @@ public class ApiObserver {
     private static ComicsApi comicsApi;
 
     private ApiObserver() {
+        Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
         Retrofit retrofit = new Retrofit.Builder()
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(BASE_API_URL)
                 .build();
 
