@@ -23,6 +23,8 @@ public class AccountRepository {
     }
 
     public boolean restore() {
+        if (!storage.getBoolean(IS_STORED_KEY, false)) return false;
 
+        return true;
     }
 }
