@@ -15,12 +15,14 @@ import static sasd97.github.com.comics.constants.HttpConstants.BASE_API_URL;
 public class ApiObserver {
 
     private static ApiObserver apiObserver;
+
     private static ComicsApi comicsApi;
+    private static Retrofit retrofit;
 
     private ApiObserver() {
         Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
-        Retrofit retrofit = new Retrofit.Builder()
+        retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .baseUrl(BASE_API_URL)
                 .build();
@@ -34,6 +36,10 @@ public class ApiObserver {
         }
 
         return apiObserver;
+    }
+
+    public static Retrofit retrofit() {
+        return retrofit;
     }
 
     public static ComicsApi api() {
