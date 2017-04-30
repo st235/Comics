@@ -17,4 +17,9 @@ public interface ComicsApi {
     @FormUrlEncoded
     Call<BaseResponseModel<UserModel>> registerUser(@Field("email") String email,
                                                     @Field("password") String password);
+
+    @POST("/login")
+    @FormUrlEncoded
+    Call<BaseResponseModel<UserModel>> loginUser(@Field("email") String email,
+                                                 @Field("password") String password);
 }

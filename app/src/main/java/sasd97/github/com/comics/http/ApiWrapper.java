@@ -22,4 +22,12 @@ public class ApiWrapper {
         registerUser.enqueue(new ApiHandler<>(callback));
         return registerUser;
     }
+
+    public static Call<?> login(@NonNull String email,
+                                @NonNull String password,
+                                @NonNull ApiListener<BaseResponseModel<UserModel>> callback) {
+        Call<BaseResponseModel<UserModel>> loginUser = ApiObserver.api().loginUser(email, password);
+        loginUser.enqueue(new ApiHandler<>(callback));
+        return loginUser;
+    }
 }
