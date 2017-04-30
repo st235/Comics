@@ -6,5 +6,5 @@ package sasd97.github.com.comics.constants;
 
 public interface HttpConstants {
 
-    String BASE_API_URL = "http://62.76.180.85:3001/";
+    String BASE_API_URL = "http://192.168.1.10:8090";
 }

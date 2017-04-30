@@ -10,6 +10,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.ui.adapters.RegistrationAdapter;
+import sasd97.github.com.comics.ui.base.BaseActivity;
 
 public class RegistrationActivity extends BaseActivity {
 

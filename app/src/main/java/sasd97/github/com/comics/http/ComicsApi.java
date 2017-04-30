@@ -4,6 +4,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
+import sasd97.github.com.comics.models.BaseResponseModel;
 import sasd97.github.com.comics.models.UserModel;
 
 /**
@@ -12,8 +13,8 @@ import sasd97.github.com.comics.models.UserModel;
 
 public interface ComicsApi {
 
-    @POST("/Users")
+    @POST("/register")
     @FormUrlEncoded
-    Call<UserModel> registerUser(@Field("email") String email,
-                                 @Field("password") String password);
+    Call<BaseResponseModel<UserModel>> registerUser(@Field("email") String email,
+                                                    @Field("password") String password);
 }

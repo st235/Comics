@@ -1,4 +1,4 @@
-package sasd97.github.com.comics.ui;
+package sasd97.github.com.comics.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
@@ -14,7 +14,7 @@ import butterknife.ButterKnife;
  * Created by Alexadner Dadukin on 2/27/2017.
  */
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment extends Fragment {
 
     @LayoutRes
     protected int getLayout() {

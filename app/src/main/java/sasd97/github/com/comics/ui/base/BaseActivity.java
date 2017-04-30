@@ -1,4 +1,4 @@
-package sasd97.github.com.comics.ui;
+package sasd97.github.com.comics.ui.base;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;

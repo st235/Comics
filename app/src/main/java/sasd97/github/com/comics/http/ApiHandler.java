@@ -10,7 +10,9 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Converter;
 import retrofit2.Response;
+import sasd97.github.com.comics.models.BaseResponseModel;
 import sasd97.github.com.comics.models.ErrorModel;
+import sasd97.github.com.comics.models.ErrorResponseModel;
 
 /**
  * Created by alexander on 30/04/2017.
@@ -28,12 +30,12 @@ public class ApiHandler<T> implements Callback<T> {
 
     @Override
     public void onResponse(Call<T> call, Response<T> response) {
-        if (!response.isSuccessful()) {
+        if (response.isSuccessful() && response.body() != null) {
             listener.onSuccess(response.body());
         } else {
             ErrorModel error = parseError(response);
-            String message = String.format("There was an error:\nurl: %1$s\nwith message: %2$s",
-                    call.request().url(), error.toString());
+            String message = String.format("There was an error:\nmethod: %1$s\nurl: %2$s\nwith message: %3$s",
+                    call.request().method(), call.request().url(), error.toString());
             Log.e(TAG, message);
             listener.onError(error);
         }
@@ -41,20 +43,26 @@ public class ApiHandler<T> implements Callback<T> {
 
     @Override
     public void onFailure(Call<T> call, Throwable t) {
-        String message = String.format("There was an error:\nurl: %1$s", call.request().url());
+        String message = String.format("There was an error:\nmethod: %1$s\nurl: %2$s",
+                call.request().method(), call.request().url());
         t.printStackTrace();
         Log.e(TAG, message);
         listener.onError(ErrorModel.UNKNOWN_ERROR);
     }
 
     private static ErrorModel parseError(Response<?> response) {
-        Converter<ResponseBody, ErrorModel> converter =
+        if (response.errorBody() == null) {
+            return ErrorModel.UNKNOWN_ERROR;
+        }
+
+        Converter<ResponseBody, ErrorResponseModel> converter =
                 ApiObserver
                         .retrofit()
-                        .responseBodyConverter(ErrorModel.class, new Annotation[0]);
+                        .responseBodyConverter(ErrorResponseModel.class, new Annotation[0]);
 
         try {
-            return converter.convert(response.errorBody());
+            ErrorModel errorModel = converter.convert(response.errorBody()).getError();
+            return  errorModel == null ? ErrorModel.UNKNOWN_ERROR : errorModel;
         } catch (IOException e) {
             return ErrorModel.UNKNOWN_ERROR;
         }

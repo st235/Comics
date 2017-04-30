@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import java.io.File;
 
 import sasd97.github.com.comics.R;
+import sasd97.github.com.comics.ui.base.BaseActivity;
 import sasd97.github.com.comics.ui.fragments.ReaderFragment;
 
 public class ReaderActivity extends BaseActivity {

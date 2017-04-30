@@ -44,10 +44,12 @@ import sasd97.github.com.comics.parsers.IParser;
 import sasd97.github.com.comics.parsers.ParserFactory;
 import sasd97.github.com.comics.parsers.RarParser;
 import sasd97.github.com.comics.services.LocalComicHandler;
-import sasd97.github.com.comics.ui.BaseFragment;
+import sasd97.github.com.comics.ui.base.BaseFragment;
 import sasd97.github.com.comics.ui.adapters.ComicViewPager;
 import sasd97.github.com.comics.utils.AndroidVersionUtils;
 import sasd97.github.com.comics.storage.PrefsStorage;
+
+import static sasd97.github.com.comics.ComicsApp.prefs;
 
 /**
  * Created by Alexadner Dadukin on 2/5/2017.
@@ -147,9 +149,9 @@ public class ReaderFragment extends BaseFragment
                 .build();
         mPagerAdapter = new ComicPagerAdapter();
 
-        int viewModeInt = PrefsStorage.get().getInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, PageImageConstants.PageViewMode.ASPECT_FIT.native_int);
+        int viewModeInt = prefs().getInteger(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, PageImageConstants.PageViewMode.ASPECT_FIT.native_int);
         mPageViewMode = PageImageConstants.PageViewMode.values()[viewModeInt];
-        mIsLeftToRight = PrefsStorage.get().getBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, true);
+        mIsLeftToRight = prefs().getBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, true);
         mGestureDetector = new GestureDetector(getActivity(), new MyTouchListener());
 
         if (parser instanceof RarParser) {
@@ -262,8 +264,7 @@ public class ReaderFragment extends BaseFragment
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         mPageViewMode = RESOURCE_VIEW_MODE.get(which);
-                        PrefsStorage.edit().putInt(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
-                        PrefsStorage.edit().apply();
+                        prefs().put(ReaderConstants.SETTINGS_PAGE_VIEW_MODE, mPageViewMode.native_int);
                         updatePageViews(comicViewPager);
                         return true;
                     }
@@ -282,8 +283,7 @@ public class ReaderFragment extends BaseFragment
                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                         int page = getCurrentPage();
                         mIsLeftToRight = (which == 0);
-                        PrefsStorage.edit().putBoolean(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
-                        PrefsStorage.edit().apply();
+                        prefs().put(ReaderConstants.SETTINGS_READING_LEFT_TO_RIGHT, mIsLeftToRight);
                         setCurrentPage(page, false);
                         comicViewPager.getAdapter().notifyDataSetChanged();
                         updateSeekBar();

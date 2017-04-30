@@ -1,25 +1,21 @@
 package sasd97.github.com.comics.ui;
 
-import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
 import butterknife.BindView;
 import sasd97.github.com.comics.R;
+import sasd97.github.com.comics.ui.base.BaseActivity;
 import sasd97.github.com.comics.ui.fragments.HierarchyFragment;
-import sasd97.github.com.comics.utils.AndroidVersionUtils;
 
 public class LibraryActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
