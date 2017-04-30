@@ -7,7 +7,7 @@ import java.util.Set;
  */
 
 public interface Storage<K> {
-    <T> void put(K key, T obj);
+    <T> Storage<K> put(K key, T obj);
 
     boolean getBoolean(K key, boolean defaultValue);
     int getInteger(K key, int defaultValue);

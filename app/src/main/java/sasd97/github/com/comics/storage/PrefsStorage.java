@@ -25,7 +25,7 @@ public final class PrefsStorage implements Storage<String> {
     }
 
     @Override
-    public <T> void put(String key, T value) {
+    public <T> Storage<String> put(String key, T value) {
         if (value instanceof Boolean) {
             editor.putBoolean(key, (Boolean) value);
         } else if (value instanceof Integer) {
@@ -42,6 +42,7 @@ public final class PrefsStorage implements Storage<String> {
 
         Log.d(TAG, "Putted key: " + key + " value: " + value);
         editor.apply();
+        return this;
     }
 
     @Override

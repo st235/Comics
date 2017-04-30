@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import sasd97.github.com.comics.database.DatabaseConnector;
 import sasd97.github.com.comics.http.ApiObserver;
+import sasd97.github.com.comics.repositories.AccountRepository;
 import sasd97.github.com.comics.storage.PrefsStorage;
 
 /**
@@ -15,6 +16,7 @@ public class ComicsApp extends Application {
 
     private static SQLiteDatabase database;
     private static PrefsStorage prefsStorage;
+    private static AccountRepository accountRepository;
 
     @Override
     public void onCreate() {
@@ -23,6 +25,9 @@ public class ComicsApp extends Application {
         ApiObserver.init();
 
         prefsStorage = new PrefsStorage(this);
+
+        accountRepository = new AccountRepository(prefsStorage);
+        accountRepository.restore();
 
         DatabaseConnector databaseConnector = new DatabaseConnector(this);
         database = databaseConnector.getWritableDatabase();
@@ -34,5 +39,9 @@ public class ComicsApp extends Application {
 
     public static PrefsStorage prefs() {
         return prefsStorage;
+    }
+
+    public static AccountRepository account() {
+        return accountRepository;
     }
 }

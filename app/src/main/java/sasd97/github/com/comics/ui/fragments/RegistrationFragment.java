@@ -17,6 +17,8 @@ import sasd97.github.com.comics.models.ErrorModel;
 import sasd97.github.com.comics.models.UserModel;
 import sasd97.github.com.comics.ui.base.BaseFragment;
 
+import static sasd97.github.com.comics.ComicsApp.account;
+
 /**
  * Created by alexander on 16.03.17.
  */
@@ -71,10 +73,15 @@ public class RegistrationFragment extends BaseFragment
     @Override
     public void onSuccess(BaseResponseModel<UserModel> response) {
         Log.d(TAG, response.toString());
+        account().save(response.getResponse());
     }
 
     @Override
     public void onError(ErrorModel errorModel) {
+
+    }
+
+    private void closeActivity() {
 
     }
 }
