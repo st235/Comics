@@ -26,8 +26,13 @@
     <!-- Endregion -->
 
     <!-- Navigation Drawer region -->
+    <string name="navigation_header_comics_user">Comics user</string>
+    <string name="navigation_header_sign_in">Sign in</string>
+    <string name="navigation_header_comics_copyright">Comics, 2017 &#169;</string>
     <string name="navigation_drawer_local">Local library</string>
     <string name="navigation_drawer_local_on_disk">Open file on disk</string>
+    <string name="navigation_drawer_common">Common</string>
+    <string name="navigation_drawer_user_logout">Logout</string>
     <!-- Endregion -->
     
     <!-- Registration/Authorization region -->

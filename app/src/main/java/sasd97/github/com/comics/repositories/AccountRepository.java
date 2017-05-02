@@ -15,6 +15,7 @@ public class AccountRepository {
     private static final String USER_ID_KEY = "user.id";
     private static final String USER_EMAIL_KEY = "user.email";
     private static final String USER_ACCESS_TOKEN_KEY = "user.token";
+    private static final String USER_IS_VERIFIED_KEY = "user.is.verified";
     private static final String USER_COMICS_LIST_KEY = "user.comics";
 
     private UserModel user;
@@ -31,7 +32,8 @@ public class AccountRepository {
                 .put(IS_STORED_KEY, true)
                 .put(USER_ID_KEY, user.getId())
                 .put(USER_EMAIL_KEY, user.getEmail())
-                .put(USER_ACCESS_TOKEN_KEY, user.getAccessToken());
+                .put(USER_ACCESS_TOKEN_KEY, user.getAccessToken())
+                .put(USER_IS_VERIFIED_KEY, user.isVerified());
     }
 
     public boolean restore() {
@@ -41,10 +43,20 @@ public class AccountRepository {
         user.setId(storage.getString(USER_ID_KEY, null));
         user.setEmail(storage.getString(USER_EMAIL_KEY, null));
         user.setAccessToken(storage.getString(USER_ACCESS_TOKEN_KEY, null));
+        user.setVerified(storage.getBoolean(USER_IS_VERIFIED_KEY, false));
+
         return true;
+    }
+
+    public void remove() {
+        storage.clear();
     }
 
     public UserModel getUser() {
         return user;
+    }
+
+    public boolean isExists() {
+        return storage.getBoolean(IS_STORED_KEY, false);
     }
 }

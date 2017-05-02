@@ -23,6 +23,10 @@ public class UserModel {
     @Expose
     private String email;
 
+    @SerializedName("isVerified")
+    @Expose
+    private boolean isVerified = false;
+
     @SerializedName("comicsList")
     @Expose
     private List<String> comicsList;
@@ -51,6 +55,14 @@ public class UserModel {
         this.email = email;
     }
 
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    public void setVerified(boolean verified) {
+        isVerified = verified;
+    }
+
     public List<String> getComicsList() {
         return comicsList;
     }
@@ -65,6 +77,7 @@ public class UserModel {
         sb.append("id='").append(id).append('\'');
         sb.append(", accessToken='").append(accessToken).append('\'');
         sb.append(", email='").append(email).append('\'');
+        sb.append(", isVerified=").append(isVerified);
         sb.append(", comicsList=").append(comicsList);
         sb.append('}');
         return sb.toString();

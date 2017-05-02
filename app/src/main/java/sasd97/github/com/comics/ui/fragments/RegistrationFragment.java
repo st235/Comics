@@ -74,6 +74,7 @@ public class RegistrationFragment extends BaseFragment
     public void onSuccess(BaseResponseModel<UserModel> response) {
         Log.d(TAG, response.toString());
         account().save(response.getResponse());
+        getActivity().finish();
     }
 
     @Override
