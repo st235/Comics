@@ -1,9 +1,11 @@
 package sasd97.github.com.comics.ui.fragments;
 
+import android.content.Context;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -24,12 +26,18 @@ import static sasd97.github.com.comics.ComicsApp.account;
 public class AuthorizationFragment extends BaseFragment
         implements ApiListener<BaseResponseModel<UserModel>> {
 
+    public interface OnAccountStateListener {
+        void onRegisterSwitch();
+    }
+
     private static final String TAG = AuthorizationFragment.class.getCanonicalName();
 
     @BindView(R.id.input_email) EditText inputEmail;
     @BindView(R.id.input_password) EditText inputPassword;
     @BindView(R.id.input_layout_email) TextInputLayout textLayoutEmail;
     @BindView(R.id.input_layout_password) TextInputLayout textLayoutPassword;
+
+    private OnAccountStateListener listener;
 
     @Override
     protected boolean isButterKnifeEnabled() {
@@ -41,10 +49,26 @@ public class AuthorizationFragment extends BaseFragment
         return R.layout.fragment_authorization;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            this.listener = (OnAccountStateListener) getActivity();
+        } catch (ClassCastException clsException) {
+            clsException.printStackTrace();
+        }
+    }
+
     @OnClick(R.id.authorization_button)
     public void onAuthorizationClick(View v) {
         ApiWrapper.login(inputEmail.getText().toString(),
                 inputPassword.getText().toString(), this);
+    }
+
+    @OnClick(R.id.no_account_text_view)
+    public void onRegisterClick(View v) {
+        listener.onRegisterSwitch();
     }
 
     private boolean isPasswordEquals() {

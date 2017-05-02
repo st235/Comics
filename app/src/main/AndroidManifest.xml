@@ -46,7 +46,7 @@
         </activity>
 
         <activity
-            android:name=".ui.RegistrationActivity"
+            android:name=".ui.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
     </application>

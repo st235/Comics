@@ -36,13 +36,11 @@
     <!-- Endregion -->
     
     <!-- Registration/Authorization region -->
-    <string name="registration_hint_email">Email</string>
-    <string name="registration_hint_password">Password</string>
-    <string name="registration_hint_confirm_password">Confirm password</string>
-
-    <string-array name="registration_tabs">
-        <item>Registration</item>
-        <item>Authorization</item>
-    </string-array>
+    <string name="authorization_hint_email">Email</string>
+    <string name="authorization_hint_password">Password</string>
+    <string name="authorization_hint_confirm_password">Confirm password</string>
+    <string name="authorization_no_account">No account yet? Create one</string>
+    <string name="authorization_sign_in">Sign in</string>
+    <string name="authorization_sign_up">Sign up</string>
     <!-- Endregion -->
 </resources>

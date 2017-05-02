@@ -9,5 +9,6 @@
     <color name="colorZip">#7ee186</color>
 
     <color name="colorWhite">#ffffff</color>
+    <color name="colorWhiteGrey">#f0f0f0</color>
     <color name="colorGrey">#545454</color>
 </resources>
