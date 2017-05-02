@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CircleView">
+        <attr name="cv_text" format="string" />
+        <attr name="cv_textSize" format="dimension" />
+        <attr name="cv_textColor" format="color" />
+        <attr name="cv_backgroundColor" format="color" />
+    </declare-styleable>
+</resources>
