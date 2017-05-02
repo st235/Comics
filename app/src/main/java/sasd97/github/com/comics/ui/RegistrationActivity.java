@@ -31,16 +31,6 @@ public class RegistrationActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isToolbarEnabled() {
-        return true;
-    }
-
-    @Override
-    protected int getToolbarId() {
-        return R.id.toolbar;
-    }
-
-    @Override
     protected void onViewCreated(Bundle state) {
         super.onViewCreated(state);
 
