@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import butterknife.BindView;
 import butterknife.OnClick;
 import sasd97.github.com.comics.R;
+import sasd97.github.com.comics.errors.ApiError;
 import sasd97.github.com.comics.http.ApiListener;
 import sasd97.github.com.comics.http.ApiWrapper;
 import sasd97.github.com.comics.models.BaseResponseModel;
@@ -34,6 +37,8 @@ public class RegistrationFragment extends BaseFragment
     @BindView(R.id.input_layout_email) TextInputLayout textLayoutEmail;
     @BindView(R.id.input_layout_password) TextInputLayout textLayoutPassword;
     @BindView(R.id.input_layout_password_confirm) TextInputLayout textLayoutPasswordConfirm;
+
+    private MaterialDialog currentDialog;
 
     @Override
     protected boolean isButterKnifeEnabled() {
@@ -79,7 +84,13 @@ public class RegistrationFragment extends BaseFragment
 
     @Override
     public void onError(ErrorModel errorModel) {
+        currentDialog = new MaterialDialog.Builder(getContext())
+                .title(R.string.all_error_title)
+                .content(ApiError.find(errorModel.getCode()).getExplanationTextError())
+                .positiveText(R.string.all_error_ok)
+                .build();
 
+        currentDialog.show();
     }
 
     private void closeActivity() {

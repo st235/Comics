@@ -22,6 +22,7 @@ import sasd97.github.com.comics.models.UserModel;
 import sasd97.github.com.comics.repositories.AccountRepository;
 import sasd97.github.com.comics.ui.base.BaseActivity;
 import sasd97.github.com.comics.ui.fragments.HierarchyFragment;
+import sasd97.github.com.comics.ui.fragments.StoreFragment;
 import sasd97.java_blog.xyz.circleview.CircleView;
 
 import static sasd97.github.com.comics.ComicsApp.account;
@@ -166,6 +167,9 @@ public class LibraryActivity extends BaseActivity
         int id = item.getItemId();
 
         switch (id) {
+            case R.id.nav_store:
+                pushFragment(StoreFragment.newInstance());
+                break;
             case R.id.nav_open_file_on_disk:
                 pushFragment(HierarchyFragment.newInstance());
                 break;

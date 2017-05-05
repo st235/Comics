@@ -8,6 +8,17 @@
     <string name="action_settings">Settings</string>
     <string name="breadcrumbs_header">Hierarchy</string>
 
+    <!-- ApiErrors region -->
+
+    <string name="all_error_title">Error</string>
+    <string name="all_unhandled_error_description">There was an error. Please, try again later</string>
+    <string name="all_email_in_use_error_description">This email in use. Please, choose another one or authorize with credentials</string>
+    <string name="all_unauthorized_error_description">You dont authorize to made such a request.</string>
+    <string name="all_email_not_confirmed_error_description">Your email address not confirmed. Please, confirm it use the link from post.</string>
+    <string name="all_error_ok">OK</string>
+
+    <!-- Endregion -->
+
     <!-- Reader region -->
     <string name="action_view_mode">View Mode</string>
     <string-array name="action_view_mode_variants">
@@ -32,6 +43,8 @@
     <string name="navigation_drawer_local">Local library</string>
     <string name="navigation_drawer_local_on_disk">Open file on disk</string>
     <string name="navigation_drawer_common">Common</string>
+    <string name="navigation_drawer_site_name">Easy Comics</string>
+    <string name="navigation_drawer_store">Store</string>
     <string name="navigation_drawer_user_logout">Logout</string>
     <!-- Endregion -->
     

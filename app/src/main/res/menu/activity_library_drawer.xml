@@ -1,24 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!--<group android:checkableBehavior="single">-->
-        <!--<item-->
-            <!--android:id="@+id/nav_camera"-->
-            <!--android:icon="@drawable/ic_menu_camera"-->
-            <!--android:title="Import" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_gallery"-->
-            <!--android:icon="@drawable/ic_menu_gallery"-->
-            <!--android:title="Gallery" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_slideshow"-->
-            <!--android:icon="@drawable/ic_menu_slideshow"-->
-            <!--android:title="Slideshow" />-->
-        <!--<item-->
-            <!--android:id="@+id/nav_manage"-->
-            <!--android:icon="@drawable/ic_menu_manage"-->
-            <!--android:title="Tools" />-->
-    <!--</group>-->
+    <item android:title="@string/navigation_drawer_site_name">
+        <menu>
+            <item
+                android:id="@+id/nav_store"
+                android:icon="@drawable/ic_store_black_24dp"
+                android:title="@string/navigation_drawer_store" />
+        </menu>
+    </item>
 
     <item android:title="@string/navigation_drawer_local">
         <menu>
@@ -37,5 +26,4 @@
                 android:title="@string/navigation_drawer_user_logout" />
         </menu>
     </item>
-
 </menu>
