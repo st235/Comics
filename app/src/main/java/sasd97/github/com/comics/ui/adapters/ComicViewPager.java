@@ -15,8 +15,8 @@ public class ComicViewPager extends ViewPager {
     private OnSwipeOutListener mSwipeOutListener;
 
     public interface OnSwipeOutListener {
-        public void onSwipeOutAtStart();
-        public void onSwipeOutAtEnd();
+        void onSwipeOutAtStart();
+        void onSwipeOutAtEnd();
     }
 
     public ComicViewPager(Context context) {

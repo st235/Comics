@@ -25,6 +25,10 @@ public class PriceModel {
         return value;
     }
 
+    public String obtainPretty() {
+        return String.format("%.2f %s", value, currency);
+    }
+
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("PriceModel{");
