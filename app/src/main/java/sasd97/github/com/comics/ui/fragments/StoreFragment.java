@@ -23,13 +23,13 @@ import sasd97.github.com.comics.ui.base.BaseFragment;
  */
 
 public class StoreFragment extends BaseFragment
-        implements ApiListener<BaseResponseModel<List<ComicsModel>>> {
+        implements ApiListener<BaseResponseModel<List<ComicsModel>>>,
+        StoreRecyclerAdapter.OnItemClickListener {
 
     private static final String TAG = StoreFragment.class.getCanonicalName();
 
     @BindView(R.id.store_recyclerview) RecyclerView storeRecyclerView;
 
-    private GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 3);
     private StoreRecyclerAdapter storeRecyclerAdapter = new StoreRecyclerAdapter();
 
     @Override
@@ -51,10 +51,16 @@ public class StoreFragment extends BaseFragment
         super.onViewCreated(state);
 
         storeRecyclerView.setHasFixedSize(true);
-        storeRecyclerView.setLayoutManager(gridLayoutManager);
         storeRecyclerView.setAdapter(storeRecyclerAdapter);
 
+        storeRecyclerAdapter.setOnItemClickListener(this);
         ApiWrapper.obtainAllComics(0, this);
+    }
+
+    @Override
+    public void onClick(int position, ComicsModel comics) {
+        Log.d(TAG, String.valueOf(position));
+        Log.d(TAG, comics.toString());
     }
 
     @Override

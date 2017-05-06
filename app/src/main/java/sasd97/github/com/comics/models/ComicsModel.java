@@ -5,11 +5,17 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import sasd97.github.com.comics.utils.HttpUtils;
+
 /**
  * Created by alexander on 05/05/2017.
  */
 
 public class ComicsModel {
+
+    @SerializedName("id")
+    @Expose
+    private String id;
 
     @SerializedName("addToShopDate")
     @Expose
@@ -100,7 +106,7 @@ public class ComicsModel {
     }
 
     public String getCoverUrl() {
-        return coverUrl;
+        return HttpUtils.obtainComicsCoverUrl(id);
     }
 
     public String getPageCountToDisplay() {
@@ -143,6 +149,7 @@ public class ComicsModel {
     public String toString() {
         final StringBuilder sb = new StringBuilder("ComicsModel{");
         sb.append("addToShopDate='").append(addToShopDate).append('\'');
+        sb.append(", id='").append(id).append('\'');
         sb.append(", name='").append(name).append('\'');
         sb.append(", description='").append(description).append('\'');
         sb.append(", price=").append(price);

@@ -3,6 +3,7 @@ package sasd97.github.com.comics.ui.adapters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +17,11 @@ import java.util.Collection;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 import sasd97.github.com.comics.R;
 import sasd97.github.com.comics.models.ComicsModel;
 import sasd97.github.com.comics.ui.base.BaseViewHolder;
+import sasd97.github.com.comics.utils.HttpUtils;
 
 /**
  * Created by alexander on 05/05/2017.
@@ -26,8 +29,15 @@ import sasd97.github.com.comics.ui.base.BaseViewHolder;
 
 public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdapter.StoreViewHolder> {
 
+    private static final String TAG = StoreRecyclerAdapter.class.getCanonicalName();
+
+    public interface OnItemClickListener {
+        void onClick(int position, ComicsModel comics);
+    }
+
     private Context context;
     private List<ComicsModel> comics;
+    private OnItemClickListener onItemClickListener;
 
     public StoreRecyclerAdapter() {
         this.comics = new ArrayList<>();
@@ -35,6 +45,10 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
 
     public StoreRecyclerAdapter(@NonNull List<ComicsModel> comics) {
         this.comics = comics;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 
     public class StoreViewHolder extends BaseViewHolder {
@@ -49,7 +63,12 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
 
         @Override
         protected void setupViews() {
+        }
 
+        @OnClick(R.id.comics_clickable_layout)
+        public void onComicsClick(View v) {
+            if (onItemClickListener == null) return;
+            onItemClickListener.onClick(getAdapterPosition(), comics.get(getAdapterPosition()));
         }
     }
 
@@ -70,6 +89,7 @@ public class StoreRecyclerAdapter extends RecyclerView.Adapter<StoreRecyclerAdap
         Glide
                 .with(context)
                 .load(comicsModel.getCoverUrl())
+                .placeholder(R.drawable.ic_launcher)
                 .into(holder.comicsPreviewImageView);
     }
 

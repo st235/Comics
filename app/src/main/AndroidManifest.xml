@@ -49,6 +49,12 @@
             android:name=".ui.AuthorizationActivity"
             android:theme="@style/AppTheme.NoActionBar"
             />
+
+
+        <activity
+            android:name=".ui.ComicsSchemeActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

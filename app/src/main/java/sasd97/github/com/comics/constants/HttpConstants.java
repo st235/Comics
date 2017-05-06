@@ -10,6 +10,7 @@ public interface HttpConstants {
 
     String DEV_API_URL = "http://192.168.1.10:8090";
     String BASE_API_URL = "http://62.76.43.216:8090";
+    String FILE_API_URL = "http://62.76.43.216:3000";
 
     int LIMIT_PAGINATION_DEFAULT_VALUE = 20;
 }
