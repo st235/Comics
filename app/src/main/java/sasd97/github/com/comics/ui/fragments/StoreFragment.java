@@ -1,5 +1,6 @@
 package sasd97.github.com.comics.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,7 @@ import sasd97.github.com.comics.http.ApiWrapper;
 import sasd97.github.com.comics.models.BaseResponseModel;
 import sasd97.github.com.comics.models.ComicsModel;
 import sasd97.github.com.comics.models.ErrorModel;
+import sasd97.github.com.comics.ui.ComicsSchemeActivity;
 import sasd97.github.com.comics.ui.adapters.StoreRecyclerAdapter;
 import sasd97.github.com.comics.ui.base.BaseFragment;
 
@@ -59,8 +61,9 @@ public class StoreFragment extends BaseFragment
 
     @Override
     public void onClick(int position, ComicsModel comics) {
-        Log.d(TAG, String.valueOf(position));
-        Log.d(TAG, comics.toString());
+        Intent showComics = new Intent(getContext(), ComicsSchemeActivity.class);
+        showComics.putExtra(ComicsSchemeActivity.PARAM_COMICS_ID, comics.getId());
+        getActivity().startActivity(showComics);
     }
 
     @Override

@@ -24,6 +24,11 @@
         <item name="android:textColor">@android:color/white</item>
     </style>
 
+    <style name="ColoredPrimaryButton" parent="Widget.AppCompat.Button.Colored">
+        <item name="colorButtonNormal">@color/colorPrimary</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
     <style name="WhiteTextLayout" parent="TextAppearance.AppCompat">
         <item name="android:textColorHint">@color/colorWhiteGrey</item>
         <item name="colorAccent">@color/colorWhite</item>

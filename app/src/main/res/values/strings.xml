@@ -56,4 +56,9 @@
     <string name="authorization_sign_in">Sign in</string>
     <string name="authorization_sign_up">Sign up</string>
     <!-- Endregion -->
+
+    <!-- Comics Scheme region -->
+    <string name="comics_scheme_buy_placeholder">Buy</string>
+    <string name="comics_scheme_buy">Buy %1$s</string>
+    <!-- Endregion -->
 </resources>

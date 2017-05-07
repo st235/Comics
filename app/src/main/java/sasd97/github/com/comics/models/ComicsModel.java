@@ -81,6 +81,10 @@ public class ComicsModel {
     @Expose
     private List<String> coverBy;
 
+    public String getId() {
+        return id;
+    }
+
     public String getAddToShopDate() {
         return addToShopDate;
     }

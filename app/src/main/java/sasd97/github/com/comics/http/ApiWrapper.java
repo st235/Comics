@@ -36,9 +36,16 @@ public class ApiWrapper {
         return loginUser;
     }
 
+    public static Call<?> obtainComics(@NonNull String comicsId,
+                                       @NonNull ApiListener<BaseResponseModel<ComicsModel>> callback) {
+        Call<BaseResponseModel<ComicsModel>> obtainComics = ApiObserver.api().obtainComics(comicsId);
+        obtainComics.enqueue(new ApiHandler<>(callback));
+        return obtainComics;
+    }
+
     public static Call<?> obtainAllComics(int offset,
                                           @NonNull ApiListener<BaseResponseModel<List<ComicsModel>>> callback) {
-        Call<BaseResponseModel<List<ComicsModel>>> obtainComics = ApiObserver.api().obtainComics(LIMIT_PAGINATION_DEFAULT_VALUE, offset);
+        Call<BaseResponseModel<List<ComicsModel>>> obtainComics = ApiObserver.api().obtainComicsList(LIMIT_PAGINATION_DEFAULT_VALUE, offset);
         obtainComics.enqueue(new ApiHandler<>(callback));
         return obtainComics;
     }

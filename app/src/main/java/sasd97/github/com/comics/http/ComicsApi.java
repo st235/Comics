@@ -7,6 +7,7 @@ import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 import sasd97.github.com.comics.models.BaseResponseModel;
 import sasd97.github.com.comics.models.ComicsModel;
@@ -28,7 +29,10 @@ public interface ComicsApi {
     Call<BaseResponseModel<UserModel>> loginUser(@Field("email") String email,
                                                  @Field("password") String password);
 
+    @GET("/getComics/{comicsId}")
+    Call<BaseResponseModel<ComicsModel>> obtainComics(@Path("comicsId") String comicsId);
+
     @GET("/getComicsList")
-    Call<BaseResponseModel<List<ComicsModel>>> obtainComics(@Query("limit") int limit,
-                                                            @Query("offset") int offset);
+    Call<BaseResponseModel<List<ComicsModel>>> obtainComicsList(@Query("limit") int limit,
+                                                                @Query("offset") int offset);
 }

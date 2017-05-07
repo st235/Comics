@@ -1,6 +1,128 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v7.widget.GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        app:columnCount="2"
+        app:rowCount="1">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_column="0"
+            app:layout_row="0"
+            app:layout_columnWeight="1">
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/comics_scheme_cover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            app:layout_column="1"
+            app:layout_row="0"
+            app:layout_columnWeight="2">
+
+            <TextView
+                android:id="@+id/comics_scheme_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/black"
+                tools:text="Bible v2" />
+
+            <TextView
+                android:id="@+id/comics_scheme_author"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                tools:text="Jesus Christ" />
+
+            <TextView
+                android:id="@+id/comics_scheme_year"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginTop="4dp"
+                tools:text="Jesus Christ" />
+        </LinearLayout>
+    </android.support.v7.widget.GridLayout>
+
+    <Button
+        android:id="@+id/comics_scheme_buy_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:text="@string/comics_scheme_buy_placeholder"
+        android:theme="@style/ColoredPrimaryButton"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_margin="16dp"
+        />
+
+
+    <TextView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="15sp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:background="@drawable/circle"
+        android:textColor="@color/colorWhite"
+        android:text="18+"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/colorGrey"
+        android:layout_margin="16dp"
+        />
+
+    <TextView
+        android:id="@+id/comics_scheme_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:textSize="18sp"
+        android:gravity="center"
+        tools:text="Lorem ipsum dolor sit amet"/>
 </LinearLayout>
